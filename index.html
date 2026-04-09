@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Elegant Restaurant Landing Redesign</title>
+    
+    <!-- Google Fonts for an elegant typography hierarchy -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+
+    <style>
+        /* --- CSS Variables & Reset --- */
+        :root {
+            --primary-dark: #2C241B; /* Deep Coffee */
+            --primary-gold: #C5A059; /* Elegant Accent */
+            --bg-cream: #F9F7F2; /* Warm background */
+            --bg-white: #FFFFFF;
+            --text-dark: #2C241B;
+            --text-light: #666666;
+            --text-white: #F9F7F2;
+            
+            --font-heading: 'Playfair Display', serif;
+            --font-body: 'Lato', sans-serif;
+            
+            --spacing-xs: 0.5rem;
+            --spacing-sm: 1rem;
+            --spacing-md: 2rem;
+            --spacing-lg: 4rem;
+            --spacing-xl: 6rem;
+
+            --shadow-soft: 0 10px 30px rgba(0,0,0,0.05);
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-body);
+            background-color: var(--bg-cream);
+            color: var(--text-dark);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, h4 {
+            font-family: var(--font-heading);
+            font-weight: 600;
+            line-height: 1.2;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+            transition: var(--transition);
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        /* --- Utilities --- */
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 var(--spacing-sm);
+        }
+
+        .text-center { text-align: center; }
+        
+        .section-title {
+            font-size: 2.5rem;
+            margin-bottom: var(--spacing-sm);
+            color: var(--primary-dark);
+        }
+
+        .section-subtitle {
+            font-size: 1.1rem;
+            color: var(--primary-gold);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: var(--spacing-xs);
+            font-weight: 700;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 1rem 2.5rem;
+            background-color: var(--primary-dark);
+            color: var(--text-white);
+            border: 1px solid var(--primary-dark);
+            font-family: var(--font-body);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .btn:hover {
+            background-color: transparent;
+            color: var(--primary-dark);
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            border: 1px solid var(--text-white);
+            color: var(--text-white);
+        }
+
+        .btn-outline:hover {
+            background-color: var(--text-white);
+            color: var(--primary-dark);
+        }
+
+        /* --- Header / Navigation --- */
+        header {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 10;
+            padding: var(--spacing-md) 0;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.6), transparent);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-family: var(--font-heading);
+            font-size: 1.8rem;
+            color: var(--text-white);
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: var(--spacing-md);
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--text-white);
+            font-size: 0.95rem;
+            opacity: 0.9;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 1px;
+            bottom: -5px;
+            left: 0;
+            background-color: var(--primary-gold);
+            transition: var(--transition);
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .nav-cta {
+            display: none;
+        }
+
+        @media(min-width: 768px) {
+            .nav-cta { display: block; }
+        }
+
+        /* --- Hero Section --- */
+        .hero {
+            height: 90vh;
+            background-image: url('https://images.unsplash.com/photo-1447933601403-0c6688de566e?auto=format&fit=crop&w=1600&q=80');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed; /* Parallax effect */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.4);
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            text-align: center;
+            color: var(--text-white);
+            max-width: 800px;
+            padding: var(--spacing-md);
+        }
+
+        .hero-content h1 {
+            font-size: 3.5rem;
+            margin-bottom: var(--spacing-md);
+            text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+        }
+
+        .hero-content p {
+            font-size: 1.25rem;
+            margin-bottom: var(--spacing-md);
+            font-weight: 300;
+            opacity: 0.9;
+        }
+
+        /* --- About / Intro Section --- */
+        .intro {
+            padding: var(--spacing-xl) 0;
+            background-color: var(--bg-cream);
+        }
+
+        .intro-text {
+            max-width: 700px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .intro-text p {
+            font-size: 1.2rem;
+            color: var(--text-light);
+            margin-bottom: var(--spacing-sm);
+        }
+
+        /* --- Brew Methods Grid --- */
+        .brew-methods {
+            padding: var(--spacing-xl) 0;
+            background-color: var(--bg-white);
+        }
+
+        .brew-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: var(--spacing-md);
+            margin-top: var(--spacing-lg);
+        }
+
+        .brew-card {
+            background: var(--bg-cream);
+            padding: var(--spacing-md);
+            text-align: center;
+            border-radius: 4px;
+            transition: var(--transition);
+        }
+
+        .brew-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-soft);
+        }
+
+        .brew-card img {
+            width: 120px;
+            height: 120px;
+            object-fit: cover;
+            border-radius: 50%;
+            margin: 0 auto var(--spacing-sm);
+            border: 3px solid var(--primary-gold);
+        }
+
+        .brew-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        /* --- Location / Vibe Section --- */
+        .vibe-section {
+            padding: var(--spacing-xl) 0;
+            background-color: var(--primary-dark);
+            color: var(--text-white);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .vibe-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--spacing-lg);
+            align-items: center;
+        }
+
+        .vibe-text h2 {
+            color: var(--text-white);
+            margin-bottom: var(--spacing-md);
+        }
+
+        .vibe-text p {
+            opacity: 0.8;
+            margin-bottom: var(--spacing-sm);
+            font-size: 1.1rem;
+        }
+
+        .vibe-img img {
+            border-radius: 4px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+        }
+
+        /* --- Dayparts Section (Morning, Afternoon, Evening) --- */
+        .dayparts {
+            padding: var(--spacing-xl) 0;
+        }
+
+        .dayparts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: var(--spacing-lg);
+            margin-top: var(--spacing-lg);
+        }
+
+        .daypart-card {
+            position: relative;
+            height: 400px;
+            overflow: hidden;
+            border-radius: 4px;
+            group: cursor-pointer;
+        }
+
+        .daypart-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s ease;
+        }
+
+        .daypart-card:hover img {
+            transform: scale(1.05);
+        }
+
+        .daypart-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+            padding: var(--spacing-md);
+            color: var(--text-white);
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            height: 100%;
+        }
+
+        .daypart-overlay h3 {
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+            color: var(--primary-gold);
+        }
+
+        .daypart-overlay p {
+            font-size: 1rem;
+            opacity: 0.9;
+            line-height: 1.4;
+        }
+
+        /* --- Final CTA --- */
+        .final-cta {
+            padding: var(--spacing-xl) 0;
+            text-align: center;
+            background-color: var(--bg-cream);
+        }
+
+        .final-cta h2 {
+            margin-bottom: var(--spacing-md);
+        }
+
+        /* --- Footer --- */
+        footer {
+            background-color: var(--primary-dark);
+            color: rgba(255,255,255,0.6);
+            padding: var(--spacing-lg) 0 var(--spacing-md);
+            font-size: 0.9rem;
+        }
+
+        .footer-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            gap: var(--spacing-md);
+            margin-bottom: var(--spacing-md);
+        }
+
+        .footer-logo {
+            font-family: var(--font-heading);
+            color: var(--text-white);
+            font-size: 1.5rem;
+        }
+
+        .footer-links a {
+            margin: 0 10px;
+        }
+
+        .footer-links a:hover {
+            color: var(--primary-gold);
+        }
+
+        .copyright {
+            border-top: 1px solid rgba(255,255,255,0.1);
+            padding-top: var(--spacing-md);
+            text-align: center;
+            font-size: 0.8rem;
+        }
+
+        /* --- Responsive Queries --- */
+        @media (max-width: 768px) {
+            .hero-content h1 { font-size: 2.5rem; }
+            
+            nav { justify-content: center; flex-wrap: wrap; }
+            .nav-links { display: none; /* Simplified for mobile showcase */ }
+            .nav-cta { display: block; margin-top: 1rem; }
+            
+            .vibe-content { grid-template-columns: 1fr; }
+            .vibe-img { order: -1; } /* Image on top mobile */
+            
+            .section-title { font-size: 2rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navigation -->
+    <header>
+        <div class="container">
+            <nav>
+                <div class="logo"><img  src="https://i.postimg.cc/SQc83HHH/logo-removebg-preview.png"style="width:120px; height:70px; filter: brightness(0) invert(1);" >
+                </div>
+                <ul class="nav-links">
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#about">About</a></li>
+                    <li><a href="#brew">Brew Methods</a></li>
+                    <li><a href="#menu">Menu</a></li>
+                    <li><a href="#visit">Visit</a></li>
+                </ul>
+                <a href="#menu" class="btn btn-outline nav-cta">Explore Menu</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>A Place for Coffee, Food and Conversation</h1>
+            <p>Experience exceptional flavors in a relaxed tavern atmosphere, just steps from the city center.</p>
+            <a href="#menu" class="btn">View Our Offerings</a>
+        </div>
+    </section>
+
+    <!-- Intro / Sourcing Section -->
+    <!-- <section id="about" class="intro">
+        <div class="container">
+            <div class="intro-text">
+                <div class="section-subtitle">Our Philosophy</div>
+                <h2 class="section-title">Sourced with Care</h2>
+                <p>At Genika Cafe, we source coffee from some of the most respected coffee-growing regions around the world.</p>
+                <p>Each bean is chosen for its unique flavour profile and roasted to highlight its natural characteristics, ensuring a cup that is both complex and comforting.</p>
+            </div>
+        </div>
+    </section> -->
+    <section id="about" class="intro" style="padding:80px 0; font-family:Arial, sans-serif;">
+    <div class="container" style="max-width:1200px; margin:0 auto; padding:0 20px;">
+        
+        <div class="intro-wrapper" style="display:flex; align-items:center; gap:50px; flex-wrap:wrap;">
+            
+            <!-- Image Side -->
+            <div class="intro-image" style="flex:1; min-width:300px;">
+                <img src="https://genikacafe.com/wp-content/themes/gc/images/pic_genika_cafe.png" alt="Coffee" style="width:100%; border-radius:12px;">
+            </div>
+
+            <!-- Content Side -->
+            <div class="intro-content" style="flex:1; min-width:300px; text-align:center;">
+                
+                <div class="section-subtitle" style="font-size:16px; letter-spacing:2px; color:#888; margin-bottom:10px;">
+                    Our Philosophy
+                </div>
+
+                <h2 class="section-title" style="font-size:32px; margin-bottom:30px;">
+                    Sourced with Care
+                </h2>
+
+                <!-- Styled Content Box -->
+                <div class="intro-box" style="background: #faf6f6;padding:30px;border-radius:12px;">
+
+                    <div class="intro-item" style="display:flex; gap:15px; margin-bottom:20px; text-align:left;">
+                        <div style="font-size:20px;">☕</div>
+                        <p style="margin:0; color:#555;">
+                            At Genika Cafe, we source coffee from some of the most respected coffee-growing regions around the world.
+                        </p>
+                    </div>
+
+                    <div class="intro-item" style="display:flex; gap:15px; margin-bottom:20px; text-align:left;">
+                        <div style="font-size:20px;">🌱</div>
+                        <p style="margin:0; color:#555;">
+                            Each bean is selected for its distinct flavour profile and carefully processed to preserve quality.
+                        </p>
+                    </div>
+
+                    <div class="intro-item" style="display:flex; gap:15px; text-align:left;">
+                        <div style="font-size:20px;">🔥</div>
+                        <p style="margin:0; color:#555;">
+                            Roasted to highlight natural characteristics, every cup delivers a rich, balanced, and comforting experience.
+                        </p>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</section>
+
+    <!-- Brew Methods Grid -->
+    <section id="brew" class="brew-methods">
+        <div class="container">
+            <div class="text-center">
+                <h2 class="section-title">Brewing Excellence</h2>
+                <p style="color:var(--text-light); max-width:600px; margin:0 auto;">Whether you prefer a slow extraction or a quick kick, we prepare every cup with precision.</p>
+            </div>
+            
+            <div class="brew-grid">
+                <!-- Pour Over -->
+                <article class="brew-card">
+                    <img src="https://images.unsplash.com/photo-1517927033932-b3d18e61fb3a?auto=format&fit=crop&w=400&q=80" alt="Pour Over Coffee Setup">
+                    <h3>Pour Over</h3>
+                    <p style="font-size: 0.9rem; color: var(--text-light);">Clean, bright, and aromatic.</p>
+                </article>
+
+                <!-- French Press -->
+                <article class="brew-card">
+                    <img src="https://images.unsplash.com/photo-1517668808822-9ebb02f2a0e6?auto=format&fit=crop&w=400&q=80" alt="French Press Coffee">
+                    <h3>French Press</h3>
+                    <p style="font-size: 0.9rem; color: var(--text-light);">Rich body and full flavor.</p>
+                </article>
+
+                <!-- Espresso -->
+                <article class="brew-card">
+                    <img src="https://images.unsplash.com/photo-1510591509098-f4fdc6d0ff04?auto=format&fit=crop&w=400&q=80" alt="Espresso Shot">
+                    <h3>Espresso</h3>
+                    <p style="font-size: 0.9rem; color: var(--text-light);">Intense and concentrated.</p>
+                </article>
+
+                <!-- Drip Coffee -->
+                <article class="brew-card">
+                    <img src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&w=400&q=80" alt="Drip Coffee Pot">
+                    <h3>Drip Coffee</h3>
+                    <p style="font-size: 0.9rem; color: var(--text-light);">Classic and comforting.</p>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <!-- Location / Atmosphere Section -->
+    <section id="visit" class="vibe-section">
+        <div class="container">
+            <div class="vibe-content">
+                <div class="vibe-text">
+                    <div class="section-subtitle">The Atmosphere</div>
+                    <h2>Your Urban Escape</h2>
+                    <p>Located just steps from the Walter E. Washington Convention Center, Genika Cafe is a destination for locals and visitors seeking exceptional quality.</p>
+                    <p>Whether you need a quiet corner to work or a lively table for conversation, our relaxed tavern atmosphere provides the perfect backdrop for your day.</p>
+                    <br>
+                    <a href="#" class="btn btn-outline">Get Directions</a>
+                </div>
+                <div class="vibe-img">
+                    <img src="https://images.unsplash.com/photo-1554118811-1e0d58224f24?auto=format&fit=crop&w=800&q=80" alt="Interior of Genika Cafe showing seating area">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Dayparts / Menu Categories -->
+    <section id="menu" class="dayparts">
+        <div class="container">
+            <div class="text-center">
+                <h2 class="section-title">All Day Dining</h2>
+            </div>
+            
+            <div class="dayparts-grid">
+                <!-- Morning -->
+                <article class="daypart-card">
+                    <img src="https://images.unsplash.com/photo-1509042239860-f550ce710b93?auto=format&fit=crop&w=600&q=80" alt="Morning Coffee">
+                    <div class="daypart-overlay">
+                        <h3>Morning Coffee</h3>
+                        <p>Start your day with expertly crafted espresso drinks and fresh pastries.</p>
+                    </div>
+                </article>
+
+                <!-- Afternoon -->
+                <article class="daypart-card">
+                    <img src="https://images.unsplash.com/photo-1528735602780-2552fd46c7af?auto=format&fit=crop&w=600&q=80" alt="Fresh Sandwiches">
+                    <div class="daypart-overlay">
+                        <h3>Sandwiches</h3>
+                        <p>Enjoy fresh, gourmet sandwiches and light bites throughout the afternoon.</p>
+                    </div>
+                </article>
+
+                <!-- Evening -->
+                <article class="daypart-card">
+                    <img src="https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?auto=format&fit=crop&w=600&q=80" alt="Evening Cocktail">
+                    <div class="daypart-overlay">
+                        <h3>Evening Tavern</h3>
+                        <p>Relax with beer, wine, or a classic cocktail as the sun goes down.</p>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <!-- Final Call to Action -->
+    <section class="final-cta">
+        <div class="container">
+            <h2>Ready to taste the difference?</h2>
+            <a href="#" class="btn">Explore the Menu</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo"><img  src="https://i.postimg.cc/SQc83HHH/logo-removebg-preview.png"style="width:95px; height:55px; filter: brightness(0) invert(1);" >
+                </div>
+                <div class="footer-links">
+                    <a href="#">Facebook</a>
+                    <a href="#">Instagram</a>
+                    <a href="#">Twitter</a>
+                </div>
+                <p>123 Convention Center Blvd, Washington, DC</p>
+                <p>Open Daily: 7am - 10pm</p>
+            </div>
+            <div class="copyright">
+                &copy; 2026 Genika Cafe. All rights reserved developed by Zannatul. 
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>
